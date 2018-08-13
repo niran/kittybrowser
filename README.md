@@ -96,4 +96,4 @@ Once you have the Smart Contract's ABI, uncomment the lines you need to add the 
 
 ## Questions or comments
 
-For any questions or comments please contact `Dragos Rizescu <dragos.rizescu@consensys.net>` or `Ruben  Torres <ruben.torres@consensys.net>`
+For any questions or comments please contact `Niran Babalola <niran.babalola@consensys.net>`.
