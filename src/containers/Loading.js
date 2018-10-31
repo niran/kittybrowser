@@ -1,14 +1,15 @@
 import React, { Component, Children } from 'react';
 import { drizzleConnect } from 'drizzle-react';
+import Web3 from 'web3';
 
 class Loading extends Component {
-  constructor(props, context) {
-    super(props);
-  }
+  static displayName = 'Loading';
 
   render() {
-    if (window.web3 === undefined || this.props.web3.status === 'failed') {
-      return(
+    const { drizzleStatus, children, web3Status } = this.props;
+
+    if (window.web3 === undefined || web3Status === 'failed') {
+      return (
         // Display a web3 warning.
         <div className="warning">
           <p>This browser has no connection to the Ethereum network. </p>
@@ -17,12 +18,12 @@ class Loading extends Component {
       );
     }
 
-    if (this.props.drizzleStatus.initialized) {
+    if (drizzleStatus.initialized) {
       // Load the dapp.
-      return Children.only(this.props.children);
+      return Children.only(React.cloneElement(children));
     }
 
-    return(
+    return (
       // Display a loading indicator.
       <div className="loading">
         <h1>Loading dapp...</h1>
@@ -30,14 +31,13 @@ class Loading extends Component {
       </div>
     );
   }
-};
+}
 
-// May still need this even with data function to refresh component on updates for this contract.
 const mapStateToProps = state => {
   return {
-    drizzleStatus: state.drizzleStatus,
-    web3: state.web3,
-  };
-}
+    web3Status: state.web3.status,
+    drizzleStatus: state.drizzleStatus
+  }
+};
 
 export default drizzleConnect(Loading, mapStateToProps);
