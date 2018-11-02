@@ -1,6 +1,5 @@
 import React, { Component, Children } from 'react';
 import { drizzleConnect } from 'drizzle-react';
-import Web3 from 'web3';
 
 class Loading extends Component {
   static displayName = 'Loading';
