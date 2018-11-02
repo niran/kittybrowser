@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { object } from 'prop-types';
+import React, { Component, Fragment } from 'react';
 import { drizzleConnect } from 'drizzle-react';
 import { CryptoKittiesContractName } from '../../constants/contractsConstants';
 import { Card } from 'antd';
 import { Form, Input, Button } from 'antd';
+import { Divider } from 'antd';
+import { Alert } from 'antd';
+
 import styles from './KittyForm.module.scss';
 
 function hasErrors(fieldsError) {
@@ -14,6 +16,10 @@ class KittyForm extends Component {
 
     componentDidMount() {
         this.props.form.validateFields();
+    }
+
+    componentDidUpdate() {
+        this.inputRef.focus();
     }
 
     handleSubmit = e => {
@@ -27,48 +33,97 @@ class KittyForm extends Component {
         });
     };
 
+    renderResults() {
+        const { kittyResult } = this.props;
+        const value = !!kittyResult && kittyResult.value;
+        const error = !!kittyResult && kittyResult.error;
+        if (error) {
+            return (
+                <Fragment>
+                    <Divider />
+                    <Alert
+                        className={styles.alert}
+                        message="Error"
+                        description="An error occurred while processing your request. Make sure you are entering an integer or hex string"
+                        type="error"
+                    />
+                </Fragment>
+            );
+        }
+        if (value) {
+            return (
+                <Fragment>
+                    <Divider />
+                    <Card
+                        className={styles.card}
+                        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    >
+                        <div className={styles.cardSection}>
+                            <h3>ID</h3>
+                            <span>{kittyResult.args[0]}</span>
+                        </div>
+                        <div className={styles.cardSection}>
+                            <h3>Genes</h3>
+                            <span>{value.genes}</span>
+                        </div>
+                        <div className={styles.cardSection}>
+                            <h3>Generation</h3>
+                            <span>{value.generation}</span>
+                        </div>
+                        <div className={styles.cardSection}>
+                            <h3>Birth Time</h3>
+                            <span>{new Date(value.birthTime * 1000).toDateString()}</span>
+                        </div>
+                    </Card>
+                </Fragment>
+            );
+        }
+    }
+
     render() {
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched, transaction } = this.props.form;
+        const { form, kittyResult, transactionDataKey } = this.props;
+        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
 
         const kittyIdError = isFieldTouched('kittyId') && getFieldError('kittyId');
 
-        // if (!transaction) return null;
+        const requestInFlight = !kittyResult && !!transactionDataKey;
 
-        // return (
-        //     <Card title='Blah'>
-        //         <p>Card content</p>
-        //     </Card>
-        // );
         return (
-            <Form layout="inline" onSubmit={this.handleSubmit}>
-                <Form.Item
-                    validateStatus={kittyIdError ? 'error' : ''}
-                    help={kittyIdError || ''}
-                >
-                    {getFieldDecorator('kittyId', {
-                        rules: [{ required: true, message: 'Please input your kitty\'s ID!' }],
-                    })(
-                        <Input className={styles.input} placeholder="Kitty ID" />
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        disabled={hasErrors(getFieldsError())}
-                    >
-                        Here kitty kitty!
-                    </Button>
-                </Form.Item>
-            </Form>
+            <div>
+                <div className={styles.formContainer}>
+                    <Form layout="inline" onSubmit={this.handleSubmit}>
+                        <Form.Item
+                            validateStatus={kittyIdError ? 'error' : ''}
+                            help={kittyIdError || ''}
+                        >
+                            {getFieldDecorator('kittyId', {
+                                rules: [{ required: true, message: 'Please input your kitty\'s ID!' }],
+                            })(
+                                <Input ref={node => this.inputRef = node} autoFocus disabled={requestInFlight} className={styles.input} placeholder="Kitty ID" />
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                disabled={hasErrors(getFieldsError()) || requestInFlight}
+                            >
+                                Here kitty kitty!
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+
+                {this.renderResults()}
+            </div>
         );
     }
 }
 
-const mapStateToProps = (state, props) => {
-    const txnHash = state.transactionStack && state.transactionStack[props.transactionStackId];
+const mapStateToProps = (state, { transactionDataKey }) => {
+    const kittyContract = state.contracts[CryptoKittiesContractName];
     return {
-        transaction: txnHash && state.transactions[txnHash]
+        kittyResult: kittyContract.getKitty[transactionDataKey]
     }
 };
 
