@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DrizzleProvider } from "drizzle-react";
 import Loading from './containers/Loading';
-import KittyForm from './containers/KittyForm';
+import Browser from './components/Browser';
 import CryptoKittiesAbi from './contracts/CryptoKitties.json';
 import Web3 from 'web3';
 import { CryptoKittiesPublicAddress, CryptoKittiesContractName } from './constants/contractsConstants';
@@ -24,7 +24,7 @@ export default class extends Component {
     return (
       <DrizzleProvider options={drizzleOptions}>
         <Loading>
-          <KittyForm />
+          <Browser />
         </Loading>
       </DrizzleProvider>
     );
