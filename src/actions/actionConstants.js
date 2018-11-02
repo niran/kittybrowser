@@ -1,0 +1,2 @@
+export const KITTY_LOADING = 'KITTY_LOADING';
+export const KITTY_LOADED = 'KITTY_LOADED';

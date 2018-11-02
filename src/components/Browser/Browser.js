@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { object } from 'prop-types';
 import KittyForm from '../../containers/KittyForm/KittyForm';
 import { CryptoKittiesContractName } from '../../constants/contractsConstants';
+import { connect } from 'react-redux';
+import { getKittyData } from '../../actions/kittiesActions';
 
 import styles from './Browser.module.scss';
 
 class Browser extends Component {
 
   state = {
-    dataKey: null
+    dataKey: null,
+    kittyId: null
   }
 
   constructor(props, context) {
@@ -19,17 +22,20 @@ class Browser extends Component {
   onSubmit = kittyId => {
     const KittyContract = this.drizzle.contracts[CryptoKittiesContractName];
     const dataKey = KittyContract.methods.getKitty.cacheCall(kittyId);
-    this.setState({ dataKey });
+    this.props.getKittyData(parseInt(kittyId, 10));
+    this.setState({ dataKey, kittyId });
   };
 
   render() {
+    const { kittyId, dataKey } = this.state;
+
     return (
       <div className={styles.browser}>
         <h1>
           Kitty Browser
         </h1>
 
-        <KittyForm transactionDataKey={this.state.dataKey} onSubmit={this.onSubmit} />
+        <KittyForm transactionDataKey={dataKey} kittyId={kittyId} onSubmit={this.onSubmit} />
       </div>
     );
   }
@@ -39,4 +45,4 @@ Browser.contextTypes = {
   drizzle: object,
 };
 
-export default Browser;
+export default connect(null, { getKittyData })(Browser);
