@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import { drizzleConnect } from 'drizzle-react';
-import { CryptoKittiesContractName } from '../constants/contractsConstants';
+import { CryptoKittiesContractName } from '../../constants/contractsConstants';
 import { Card } from 'antd';
 import { Form, Input, Button } from 'antd';
-import styles from '../styles/containers/KittyForm.module.scss';
+import styles from './KittyForm.module.scss';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);

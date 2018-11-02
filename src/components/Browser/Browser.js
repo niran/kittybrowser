@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
-import KittyForm from '../containers/KittyForm';
+import KittyForm from '../../containers/KittyForm/KittyForm';
 
 class Browser extends Component {
 

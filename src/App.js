@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DrizzleProvider } from "drizzle-react";
-import Loading from './containers/Loading';
-import Browser from './components/Browser';
+import Loading from './containers/Loading/Loading';
+import Browser from './components/Browser/Browser';
 import CryptoKittiesAbi from './contracts/CryptoKitties.json';
 import Web3 from 'web3';
 import { CryptoKittiesPublicAddress, CryptoKittiesContractName } from './constants/contractsConstants';
