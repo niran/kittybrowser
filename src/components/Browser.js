@@ -3,6 +3,11 @@ import { object } from 'prop-types';
 import KittyForm from '../containers/KittyForm';
 
 class Browser extends Component {
+
+  onSubmit = kittyId => {
+    alert(kittyId);
+  };
+
   render() {
     return (
       <div className="browser">
@@ -10,7 +15,7 @@ class Browser extends Component {
           Kitty Browser
         </h1>
 
-        <KittyForm />
+        <KittyForm onSubmit={this.onSubmit} />
       </div>
     );
   }

@@ -23,5 +23,10 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.4",
+    "react-app-rewire-css-modules": "codebandits/react-app-rewire-css-modules",
+    "sass-loader": "^7.1.0"
   }
 }
