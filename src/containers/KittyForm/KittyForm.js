@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { drizzleConnect } from 'drizzle-react';
 import { CryptoKittiesContractName } from '../../constants/contractsConstants';
-import { Card } from 'antd';
-import { Form, Input, Button } from 'antd';
-import { Divider } from 'antd';
-import { Alert } from 'antd';
+import { Form, Input, Button, Divider, Alert, Card } from 'antd';
+import { getKittyLoading, getKittyImageUrl } from '../../reducers/index';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+
 
 import styles from './KittyForm.module.scss';
 
@@ -34,7 +34,7 @@ class KittyForm extends Component {
     };
 
     renderResults() {
-        const { kittyResult } = this.props;
+        const { kittyResult, isImageLoading, imageUrl } = this.props;
         const value = !!kittyResult && kittyResult.value;
         const error = !!kittyResult && kittyResult.error;
         if (error) {
@@ -56,7 +56,9 @@ class KittyForm extends Component {
                     <Divider />
                     <Card
                         className={styles.card}
-                        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                        cover={
+                            isImageLoading ? <LoadingIndicator /> : <img alt="kittyimage" src={imageUrl} />
+                        }
                     >
                         <div className={styles.cardSection}>
                             <h3>ID</h3>
@@ -120,10 +122,12 @@ class KittyForm extends Component {
     }
 }
 
-const mapStateToProps = (state, { transactionDataKey }) => {
+const mapStateToProps = (state, { transactionDataKey, kittyId }) => {
     const kittyContract = state.contracts[CryptoKittiesContractName];
     return {
-        kittyResult: kittyContract.getKitty[transactionDataKey]
+        kittyResult: kittyContract.getKitty[transactionDataKey],
+        isImageLoading: kittyId ? getKittyLoading(state, kittyId) : false,
+        imageUrl: kittyId ? getKittyImageUrl(state, kittyId) : ''
     }
 };
 

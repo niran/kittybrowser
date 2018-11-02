@@ -13,7 +13,7 @@ export const getKittyData = id => {
                 return;
             }
 
-            dispatch(kittyLoading(kitty));
+            dispatch(kittyLoading(id));
 
             const kitty = await fetchKitty(id);
 

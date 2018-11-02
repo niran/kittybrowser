@@ -26,3 +26,7 @@
 .alert {
     margin-bottom: 20px;
 }
+
+:global(.ant-card-cover) {
+    height: 400px;
+}

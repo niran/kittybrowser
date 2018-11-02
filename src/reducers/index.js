@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { drizzleReducers } from 'drizzle';
-import kittiesReducer, { _getKitty, _getKittyLoading, _getKittyImageUrl } from './kittiesReducer';
+import kitties, { _getKitty, _getKittyLoading, _getKittyImageUrl } from './kittiesReducer';
 
 const rootReducer = combineReducers({
     ...drizzleReducers,
-    kittiesReducer
+    kitties
 });
 
 export const getKitties = state => state.kitties;
