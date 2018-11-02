@@ -4,6 +4,7 @@ import { drizzleConnect } from 'drizzle-react';
 import { CryptoKittiesContractName } from '../constants/contractsConstants';
 import { Card } from 'antd';
 import { Form, Input, Button } from 'antd';
+import styles from '../styles/containers/KittyForm.module.scss';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -47,7 +48,7 @@ class KittyForm extends Component {
                     {getFieldDecorator('kittyId', {
                         rules: [{ required: true, message: 'Please input your kitty\'s ID!' }],
                     })(
-                        <Input placeholder="Kitty ID" />
+                        <Input className={styles.input} placeholder="Kitty ID" />
                     )}
                 </Form.Item>
                 <Form.Item>
