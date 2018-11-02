@@ -1,5 +1,6 @@
 import React, { Component, Children } from 'react';
 import { drizzleConnect } from 'drizzle-react';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 class Loading extends Component {
   static displayName = 'Loading';
@@ -22,13 +23,8 @@ class Loading extends Component {
       return Children.only(React.cloneElement(children));
     }
 
-    return (
-      // Display a loading indicator.
-      <div className="loading">
-        <h1>Loading dapp...</h1>
-        <img src="https://www.cryptokitties.co/images/loader.gif" width="120" alt="loading" />
-      </div>
-    );
+    // Display a loading indicator.
+    return <LoadingIndicator text='Loading dapp...' />;
   }
 }
 

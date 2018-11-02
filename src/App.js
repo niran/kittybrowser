@@ -7,14 +7,12 @@ import drizzleOptions from './drizzleConfig';
 
 import './App.css';
 
-export default class extends Component {
-  render() {
-    return (
-      <DrizzleProvider options={drizzleOptions} store={store}>
-        <Loading>
-          <Browser />
-        </Loading>
-      </DrizzleProvider>
-    );
-  }
+export default function() {
+  return (
+    <DrizzleProvider options={drizzleOptions} store={store}>
+      <Loading>
+        <Browser />
+      </Loading>
+    </DrizzleProvider>
+  );
 }
