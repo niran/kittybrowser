@@ -5,6 +5,7 @@ import { fetchKitty } from '../api/kittiesApi';
 
 export const kittyLoaded = createAction(ActionConstants.KITTY_LOADED);
 export const kittyLoading = createAction(ActionConstants.KITTY_LOADING);
+export const kittyLoadError = createAction(ActionConstants.KITTY_LOAD_ERROR);
 
 export const getKittyData = id => {
     return async (dispatch, getState) => {
@@ -21,7 +22,7 @@ export const getKittyData = id => {
             return kitty;
 
         } catch (e) {
-            // TODO: handle error
+            dispatch(kittyLoadError({ error: e, id }));
         }
     };
 };

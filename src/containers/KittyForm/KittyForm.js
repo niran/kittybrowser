@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { drizzleConnect } from 'drizzle-react';
 import { CryptoKittiesContractName } from '../../constants/contractsConstants';
 import { Form, Input, Button, Divider, Alert, Card } from 'antd';
-import { getKittyLoading, getKittyImageUrl } from '../../reducers/index';
+import { getKittyLoading, getKittyImageUrl, getKittyLoadError } from '../../reducers/index';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 
@@ -34,10 +34,10 @@ class KittyForm extends Component {
     };
 
     renderResults() {
-        const { kittyResult, isImageLoading, imageUrl } = this.props;
+        const { kittyResult, isImageLoading, imageUrl, error } = this.props;
         const value = !!kittyResult && kittyResult.value;
-        const error = !!kittyResult && kittyResult.error;
-        if (error) {
+        const drizzleError = !!kittyResult && kittyResult.error;
+        if (drizzleError) {
             return (
                 <Fragment>
                     <Divider />
@@ -51,15 +51,27 @@ class KittyForm extends Component {
             );
         }
         if (value) {
+            function renderCover() {
+                if (error) {
+                    return (
+                        <Alert
+                            className={styles.imageError}
+                            message="Cannot show image"
+                            description="There was an problem retrieving your kitty's image"
+                            type="error"
+                        />
+                    );
+                }
+                if (isImageLoading) {
+                    return <LoadingIndicator />;
+                }
+                return <img alt="kittyimage" src={imageUrl} />;
+            }
+
             return (
                 <Fragment>
                     <Divider />
-                    <Card
-                        className={styles.card}
-                        cover={
-                            isImageLoading ? <LoadingIndicator /> : <img alt="kittyimage" src={imageUrl} />
-                        }
-                    >
+                    <Card className={styles.card} cover={renderCover()}>
                         <div className={styles.cardSection}>
                             <h3>ID</h3>
                             <span>{kittyResult.args[0]}</span>
@@ -126,8 +138,9 @@ const mapStateToProps = (state, { transactionDataKey, kittyId }) => {
     const kittyContract = state.contracts[CryptoKittiesContractName];
     return {
         kittyResult: kittyContract.getKitty[transactionDataKey],
-        isImageLoading: kittyId ? getKittyLoading(state, kittyId) : false,
-        imageUrl: kittyId ? getKittyImageUrl(state, kittyId) : ''
+        isImageLoading: typeof kittyId === 'number' ? getKittyLoading(state, kittyId) : false,
+        imageUrl: typeof kittyId === 'number' ? getKittyImageUrl(state, kittyId) : '',
+        error: typeof kittyId === 'number' ? getKittyLoadError(state, kittyId) : '',
     }
 };
 
