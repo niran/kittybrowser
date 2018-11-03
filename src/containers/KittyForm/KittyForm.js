@@ -28,7 +28,7 @@ class KittyForm extends Component {
         const { getFieldValue, validateFields } = form;
         validateFields((err, values) => {
             if (!err) {
-                onSubmit(getFieldValue('kittyId'));
+                onSubmit(parseInt(getFieldValue('kittyId'), 10));
             }
         });
     };

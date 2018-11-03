@@ -22,7 +22,6 @@ class Browser extends Component {
   onSubmit = kittyId => {
     const KittyContract = this.drizzle.contracts[CryptoKittiesContractName];
     const dataKey = KittyContract.methods.getKitty.cacheCall(kittyId);
-    kittyId = parseInt(kittyId, 10);
     this.props.getKittyData(kittyId);
     this.setState({ dataKey, kittyId });
   };
