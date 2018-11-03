@@ -1,6 +1,7 @@
 import React, { Component, Children } from 'react';
 import { drizzleConnect } from 'drizzle-react';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import styles from './Loading.module.scss';
 
 class Loading extends Component {
   static displayName = 'Loading';
@@ -24,7 +25,11 @@ class Loading extends Component {
     }
 
     // Display a loading indicator.
-    return <LoadingIndicator text='Loading dapp...' />;
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingIndicator text='Loading dapp...' />
+      </div>
+    );
   }
 }
 
