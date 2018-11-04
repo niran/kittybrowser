@@ -44,7 +44,7 @@ class KittyForm extends Component {
                     <Alert
                         className={styles.alert}
                         message="Error"
-                        description="An error occurred while processing your request. Make sure you are entering an integer or hex string"
+                        description="An error occurred while processing your request."
                         type="error"
                     />
                 </Fragment>
