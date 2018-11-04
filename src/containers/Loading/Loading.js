@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react';
+import React, { Component, Children, Fragment } from 'react';
 import { drizzleConnect } from 'drizzle-react';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 import { Alert} from 'antd';
@@ -34,9 +34,12 @@ class Loading extends Component {
 
     // Display a loading indicator.
     return (
-      <div className={styles.loadingContainer}>
-        <LoadingIndicator text='Loading dapp...' />
-      </div>
+      <Fragment>
+        <h1 className={styles.loadingText}>Loading dapp...</h1>
+        <div className={styles.loadingContainer}>
+          <LoadingIndicator />
+        </div>
+      </Fragment>
     );
   }
 }

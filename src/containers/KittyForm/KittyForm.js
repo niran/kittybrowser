@@ -56,7 +56,7 @@ class KittyForm extends Component {
                     return (
                         <Alert
                             className={styles.imageError}
-                            message="Cannot show image"
+                            message="Image Not Available"
                             description="There was an problem retrieving your kitty's image"
                             type="error"
                         />
@@ -113,7 +113,14 @@ class KittyForm extends Component {
                             {getFieldDecorator('kittyId', {
                                 rules: [{ required: true, message: 'Please input your kitty\'s ID!' }],
                             })(
-                                <Input ref={node => this.inputRef = node} autoFocus disabled={requestInFlight} className={styles.input} placeholder="Kitty ID" />
+                                <Input
+                                    ref={node => this.inputRef = node}
+                                    autoFocus
+                                    disabled={requestInFlight}
+                                    className={styles.input}
+                                    placeholder="Kitty ID"
+                                    type='number'
+                                />
                             )}
                         </Form.Item>
                         <Form.Item>
