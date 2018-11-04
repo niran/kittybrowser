@@ -1,0 +1,38 @@
+.input {
+    width: 300px;
+}
+
+.card {
+    h3 {
+        margin-bottom: 0
+    }
+    width: 400px;
+    margin: auto;
+}
+
+.cardSection {
+    word-break: break-all;
+}
+
+.cardSection + .cardSection {
+    margin-top: 15px;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+
+:global(.ant-card-cover) {
+    height: 400px;
+    position: relative;
+}
+
+.imageError {
+    top: 50%;
+    transform: translateY(-50%);
+}

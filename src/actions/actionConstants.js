@@ -1,0 +1,3 @@
+export const KITTY_LOADING = 'KITTY_LOADING';
+export const KITTY_LOADED = 'KITTY_LOADED';
+export const KITTY_LOAD_ERROR = 'KITTY_LOAD_ERROR';
